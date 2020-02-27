@@ -10,8 +10,4 @@ class HomeController {
         echo $id;
     }
 
-    public function xd($id, $chuj) {
-        echo $id . " " . $chuj;
-    }
-
 }
