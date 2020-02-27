@@ -1,6 +1,6 @@
 <?php
 
-require_once "./controllers/HomeController.php";
+require_once "./controllers/BookController.php";
 
 class Routes {
 
@@ -72,7 +72,7 @@ class Router {
         $controller = $destinationArray[0];
         $method = $destinationArray[1];
 
-        (new $controller)->$method(...$requestData["args"]);
+        echo (new $controller)->$method(...$requestData["args"]);
     }
 
 }

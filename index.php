@@ -1,15 +1,10 @@
 <?php 
-require_once './router.php';
+require_once 'router.php';
 
 $router = new Router;
 
 $router->get(
-    "/home", "HomeController@index"
+    "/home", "BookController@home"
 );
-
-$router->get(
-    "/test/{id}", "HomeController@test"
-);
-
 
 $router->request($_SERVER);
