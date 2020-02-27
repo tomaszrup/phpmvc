@@ -13,7 +13,7 @@ class BookController extends Controller {
         return $this->view(
             "home",
             [
-                "id" => 4
+                "books" => $books
             ]
         );
 
