@@ -22,12 +22,12 @@ class Model {
 
     public function find($id) {
         $query = "SELECT * FROM $this->table WHERE id = $id";
-        return $this->query($query);
+        return $this->query($query)->fetch_assoc();
     }
 
     public function findAll() {
         $query = "SELECT * FROM $this->table";
-        return $this->query($query)->fetch_assoc();
+        return $this->query($query)->fetch_all(MYSQLI_ASSOC);
     }
 
     private function query($query) {

@@ -10,7 +10,12 @@ class BookController extends Controller {
         $model = new Book;
         $books = $model->findAll();
 
-        return var_dump($books);
+        return $this->view(
+            "home",
+            [
+                "id" => 4
+            ]
+        );
 
     }
 
