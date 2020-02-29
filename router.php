@@ -13,37 +13,36 @@ class Routes {
        $this->routes[$method][$route] = $destination;
     } 
 
-    public function resolve($method, $route) {
-        $routes = $this->routes[$method];
+    public function resolve($method, $requestRoute) {
+        $savedRoutes = $this->routes[$method];
  
-        $paths = array_keys($routes);
-        $routeArray = explode("/", $route);
+        $savedPaths = array_keys($savedRoutes);
+        $requestRouteArray = explode("/", $requestRoute);
 
-        foreach($paths as $path) {
-
+        foreach($savedPaths as $path) {
             $pathArray = explode("/", $path);
             
-            $intersect = array_intersect($pathArray, $routeArray);
+            $matchingSegments = array_intersect($pathArray, $requestRouteArray);
 
-            $argValues = array_diff($routeArray, $intersect);
-            $argKeys = array_diff($pathArray, $intersect);
-            $argKeys = array_filter($argKeys, function($item) {
+            $pathVariableValues = array_diff($requestRouteArray, $matchingSegments);
+
+            $pathVariableKeys = array_diff($pathArray, $matchingSegments);
+            $pathVariableKeys = array_filter($pathVariableKeys, function($item) {
                 return preg_match('/{(.*?)}/', $item);
             });
 
-            if(count($argKeys) == count($argValues) 
-            && count($intersect) + count($argKeys) == count($pathArray) 
-            && count($intersect) > 1) {       
-                
+            if(count($pathVariableKeys) == count($pathVariableValues) && 
+                count($matchingSegments) + count($pathVariableKeys) == count($pathArray) &&
+                count($matchingSegments) > 1) 
+            {               
                 return [
-                    "destination" => $routes[$path],
-                    "args" => $argValues
+                    "destination" => $savedRoutes[$path],
+                    "args" => $pathVariableValues
                 ];
             }
         }
 
         throw new Exception("No such route");
-
     }
 
 }
