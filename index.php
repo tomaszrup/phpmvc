@@ -1,10 +1,5 @@
 <?php 
-require_once 'router.php';
 
-$router = new Router;
-
-$router->get(
-    "/home", "BookController@home"
-);
+require_once 'routes.php';
 
 $router->request($_SERVER);
