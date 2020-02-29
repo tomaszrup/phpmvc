@@ -4,7 +4,10 @@ class Routes {
 
 private $routes = [
     "GET" => [],
-    "POST" => []
+    "POST" => [],
+    "PUT" => [],
+    "PATCH" => [],
+    "DELETE" => []
 ];
 
 public function add($method, $route, $destination) {
