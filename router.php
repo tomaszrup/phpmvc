@@ -60,6 +60,10 @@ class Router {
         $this->routes->add("GET", $route, $destination);
     }
 
+    public function post($route, $destination) {
+        $this->routes->add("POST", $route, $destination);
+    }
+
     public function request($server) {
         $method = $server['REQUEST_METHOD'];
         $route = str_replace($this->prefix, "", $server['REQUEST_URI']);
@@ -68,8 +72,7 @@ class Router {
     
         $destinationArray = explode("@", $requestData["destination"]);
 
-        $controller = $destinationArray[0];
-        $method = $destinationArray[1];
+        [$controller, $method] = $destinationArray;
 
         echo (new $controller)->$method(...$requestData["args"]);
     }
