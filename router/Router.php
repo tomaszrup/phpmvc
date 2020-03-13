@@ -3,11 +3,11 @@
 require_once __DIR__ . '/Routes.php';
 require_once __DIR__ . '/../controllers/BookController.php';
 require_once __DIR__ . '/../controllers/ErrorController.php';
+require_once __DIR__ . '/../infrastructure/Settings.php';
 
 class Router
 {
 
-    private $prefix = "/router";
     private $routes;
 
     public function __construct()
@@ -15,7 +15,7 @@ class Router
         $this->routes = new Routes;
     }
 
-    public function get($route, $destination)
+    public function get(string $route, $destination)
     {
         $this->routes->add("GET", $route, $destination);
     }
@@ -28,7 +28,7 @@ class Router
     public function request($server)
     {
         $method = $server['REQUEST_METHOD'];
-        $route = str_replace($this->prefix, "", $server['REQUEST_URI']);
+        $route = str_replace(Settings::$ROUTE_PREFIX, "", $server['REQUEST_URI']);
 
         try {
             $requestData = $this->routes->resolve($method, $route);

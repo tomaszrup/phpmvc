@@ -8,7 +8,6 @@ class BookController extends Controller
 
     public function home()
     {
-
         $model = new Book;
         $books = $model->findAll();
 
@@ -19,6 +18,12 @@ class BookController extends Controller
             ]
         );
 
+    }
+
+    public function showForm() {
+        $this->view(
+            "create"
+        );
     }
 
 }

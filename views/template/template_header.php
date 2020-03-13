@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Library</title>
-    <link rel="stylesheet" href="/router/resources/css/bulma.min.css";>
+    <link rel="stylesheet" href="<?= resource("css/bulma.min.css") ?>">
 </head>
 <body style="min-height: 100vh">
     <nav class="navbar" role="navigation" aria-label="main navigation">
