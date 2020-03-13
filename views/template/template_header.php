@@ -18,6 +18,12 @@
             <span aria-hidden="true"></span>
             </a>
         </div>
+
+        <div class="navbar-menu">
+            <a href="<?= path("creation_form") ?>" class="navbar-item">
+                Add a book
+            </a>
+        </div>
     </div>
     </nav>
 

@@ -15,7 +15,7 @@ class Controller
             extract($data);
         }
 
-        @include $absPath;
+        return @include $absPath;
     }
 
 }

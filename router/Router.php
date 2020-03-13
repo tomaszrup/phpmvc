@@ -49,9 +49,7 @@ class Router
 
         array_push($requestData["args"], $attributes);
 
-        echo (new $controller)->$method(...$requestData["args"]);
-
-        return true;
+        return (new $controller)->$method(...$requestData["args"]);
     }
 
 }

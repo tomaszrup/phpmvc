@@ -10,7 +10,7 @@ class BookController extends Controller
     {
         $books = (new Book)->findAll();
 
-        $this->view(
+        return $this->view(
             "home",
             [
                 "books" => $books
@@ -20,7 +20,7 @@ class BookController extends Controller
     }
 
     public function showForm() {
-        $this->view(
+        return $this->view(
             "create"
         );
     }
@@ -30,6 +30,7 @@ class BookController extends Controller
 
         (new Book)->add($post);
 
+        return redirect("home");
     }
 
 }
