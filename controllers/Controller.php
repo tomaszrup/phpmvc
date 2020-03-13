@@ -1,13 +1,21 @@
 <?php
 
-class Controller {
+class Controller
+{
 
-    protected function view($path, $data = null) {
-        if($data) {
+    protected function view($viewPath, $data = null)
+    {
+        $absPath = __DIR__ . '/../views/' . $viewPath . '.php';
+
+        if (!file_exists($absPath)) {
+            trigger_error("No such view: $viewPath");
+        }
+
+        if ($data) {
             extract($data);
         }
 
-        include __DIR__ . '/../views/' . $path . '.php';
+        @include $absPath;
     }
 
 }

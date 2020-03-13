@@ -1,9 +1,10 @@
 <?php
 
-require_once 'Model.php';
+require_once __DIR__ . '/Model.php';
 
-class Book extends Model {
+class Book extends Model
+{
 
     protected $table = "books";
-    
+
 }

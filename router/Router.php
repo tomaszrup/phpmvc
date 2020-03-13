@@ -1,36 +1,47 @@
 <?php
 
-require_once 'Routes.php';
+require_once __DIR__ . '/Routes.php';
 require_once __DIR__ . '/../controllers/BookController.php';
+require_once __DIR__ . '/../controllers/ErrorController.php';
 
-class Router {
+class Router
+{
 
-private $prefix = "/router";
-private $routes;
+    private $prefix = "/router";
+    private $routes;
 
-public function __construct() {
-    $this->routes = new Routes;
-}
+    public function __construct()
+    {
+        $this->routes = new Routes;
+    }
 
-public function get($route, $destination) {
-    $this->routes->add("GET", $route, $destination);
-}
+    public function get($route, $destination)
+    {
+        $this->routes->add("GET", $route, $destination);
+    }
 
-public function post($route, $destination) {
-    $this->routes->add("POST", $route, $destination);
-}
+    public function post($route, $destination)
+    {
+        $this->routes->add("POST", $route, $destination);
+    }
 
-public function request($server) {
-    $method = $server['REQUEST_METHOD'];
-    $route = str_replace($this->prefix, "", $server['REQUEST_URI']);
+    public function request($server)
+    {
+        $method = $server['REQUEST_METHOD'];
+        $route = str_replace($this->prefix, "", $server['REQUEST_URI']);
 
-    $requestData = $this->routes->resolve($method, $route);
+        try {
+            $requestData = $this->routes->resolve($method, $route);
+        } catch (Exception $exception) {
+            (new ErrorController)->notFoundPage();
+            return false;
+        }
 
-    $destinationArray = explode("@", $requestData["destination"]);
+        $destinationArray = explode("@", $requestData["destination"]);
 
-    [$controller, $method] = $destinationArray;
+        [$controller, $method] = $destinationArray;
 
-    echo (new $controller)->$method(...$requestData["args"]);
-}
+        echo (new $controller)->$method(...$requestData["args"]);
+    }
 
 }
