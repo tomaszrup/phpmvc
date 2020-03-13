@@ -24,22 +24,23 @@ class Routes
         $savedRoutes = $this->routes[$method];
 
         $savedPaths = array_keys($savedRoutes);
-        $requestRouteArray = explode("/", $requestRoute);
+
+        $requestRouteExploded = explode("/", $requestRoute);
 
         foreach ($savedPaths as $path) {
-            $pathArray = explode("/", $path);
+            $iteratingPathExploded = explode("/", $path);
 
-            $matchingSegments = array_intersect($pathArray, $requestRouteArray);
+            $matchingSegments = array_intersect($iteratingPathExploded, $requestRouteExploded);
 
-            $pathVariableValues = array_diff($requestRouteArray, $matchingSegments);
+            $pathVariableValues = array_diff($requestRouteExploded, $matchingSegments);
 
-            $pathVariableKeys = array_diff($pathArray, $matchingSegments);
+            $pathVariableKeys = array_diff($iteratingPathExploded, $matchingSegments);
             $pathVariableKeys = array_filter($pathVariableKeys, function ($item) {
                 return preg_match('/{(.*?)}/', $item);
             });
 
             if (count($pathVariableKeys) == count($pathVariableValues) &&
-                count($matchingSegments) + count($pathVariableKeys) == count($pathArray) &&
+                count($matchingSegments) + count($pathVariableKeys) == count($iteratingPathExploded) &&
                 count($matchingSegments) > 1) {
                 return [
                     "destination" => $savedRoutes[$path],

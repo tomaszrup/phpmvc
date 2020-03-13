@@ -7,9 +7,9 @@ class Model
 
     public function add($data)
     {
-        array_map($data, function ($item) {
+        array_map(function ($item) {
             return '`' . $item . '`';
-        });
+        }, $data);
 
         $values = "(" . implode(",", $data) . ")";
 
@@ -37,8 +37,7 @@ class Model
 
     private function query($query)
     {
-        $result = Database::getConnection()->query($query);
-        return $result;
+        return Database::getConnection()->query($query);
     }
 
 }
