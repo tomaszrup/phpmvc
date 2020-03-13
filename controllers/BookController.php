@@ -13,7 +13,7 @@ class BookController extends Controller
         $books = $model->findAll();
 
         $this->view(
-            "homxe",
+            "home",
             [
                 "books" => $books
             ]

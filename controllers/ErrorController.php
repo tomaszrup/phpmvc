@@ -8,6 +8,7 @@ class ErrorController extends Controller
 
     public function notFoundPage()
     {
+        http_response_code(404);
         $this->view("404");
     }
 
