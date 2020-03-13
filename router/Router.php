@@ -15,23 +15,23 @@ class Router
         $this->routes = new Routes;
     }
 
-    public function get(string $route, $destination)
+    public function get(string $route, string $destination)
     {
         $this->routes->add("GET", $route, $destination);
     }
 
-    public function post($route, $destination)
+    public function post(string $route, string $destination)
     {
         $this->routes->add("POST", $route, $destination);
     }
 
-    public function request($server)
+    public function request(array $server)
     {
-        $method = $server['REQUEST_METHOD'];
+        $httpMethod = $server['REQUEST_METHOD'];
         $route = str_replace(Settings::$ROUTE_PREFIX, "", $server['REQUEST_URI']);
 
         try {
-            $requestData = $this->routes->resolve($method, $route);
+            $requestData = $this->routes->resolve($httpMethod, $route);
         } catch (Exception $exception) {
             (new ErrorController)->notFoundPage();
             return false;
@@ -41,7 +41,17 @@ class Router
 
         [$controller, $method] = $destinationArray;
 
+        if ($httpMethod == "GET") {
+            $attributes = $_GET;
+        } else {
+            $attributes = $_POST;
+        }
+
+        array_push($requestData["args"], $attributes);
+
         echo (new $controller)->$method(...$requestData["args"]);
+
+        return true;
     }
 
 }

@@ -5,7 +5,7 @@ require_once __DIR__ . '/../infrastructure/Database.php';
 class Model
 {
 
-    public function add($data)
+    public function add(array $data)
     {
         array_map(function ($item) {
             return '`' . $item . '`';
@@ -17,13 +17,13 @@ class Model
         return $this->query($query);
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
         $query = "DELETE FROM $this->table WHERE id = $id";
         return $this->query($query);
     }
 
-    public function find($id)
+    public function find(int $id)
     {
         $query = "SELECT * FROM $this->table WHERE id = $id";
         return (object) $this->query($query)->fetch_assoc();
@@ -37,7 +37,7 @@ class Model
         }, $this->query($query)->fetch_all(MYSQLI_ASSOC));
     }
 
-    private function query($query)
+    private function query(string $query)
     {
         return Database::getConnection()->query($query);
     }

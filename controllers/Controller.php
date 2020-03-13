@@ -3,7 +3,7 @@
 class Controller
 {
 
-    protected function view($viewPath, $data = null)
+    protected function view(string $viewPath, array $data = null)
     {
         $absPath = __DIR__ . '/../views/' . $viewPath . '.php';
 

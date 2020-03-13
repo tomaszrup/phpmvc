@@ -8,8 +8,7 @@ class BookController extends Controller
 
     public function home()
     {
-        $model = new Book;
-        $books = $model->findAll();
+        $books = (new Book)->findAll();
 
         $this->view(
             "home",
@@ -24,6 +23,13 @@ class BookController extends Controller
         $this->view(
             "create"
         );
+    }
+
+    public function create(array $post) {
+        // TODO: Validation
+
+        (new Book)->add($post);
+
     }
 
 }

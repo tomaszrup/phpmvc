@@ -11,7 +11,7 @@ class Routes
         "DELETE" => []
     ];
 
-    public function add($method, $route, $destination)
+    public function add(string $method, string $route, string $destination)
     {
         $this->routes[$method][$route] = $destination;
     }
@@ -19,7 +19,7 @@ class Routes
     /**
      * @throws Exception
      */
-    public function resolve($method, $requestRoute)
+    public function resolve(string $method, string $requestRoute)
     {
         $savedRoutes = $this->routes[$method];
 
