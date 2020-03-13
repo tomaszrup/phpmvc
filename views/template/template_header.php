@@ -8,7 +8,7 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
-            <a class="navbar-item" href="https://bulma.io">
+            <a class="navbar-item" href="<?= path("home") ?>">
             <h2 class="subtitle"> Library </h2>
             </a>
 

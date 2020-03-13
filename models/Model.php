@@ -26,13 +26,15 @@ class Model
     public function find($id)
     {
         $query = "SELECT * FROM $this->table WHERE id = $id";
-        return $this->query($query)->fetch_assoc();
+        return (object) $this->query($query)->fetch_assoc();
     }
 
     public function findAll()
     {
         $query = "SELECT * FROM $this->table";
-        return $this->query($query)->fetch_all(MYSQLI_ASSOC);
+        return array_map(function ($item) {
+            return (object) $item;
+        }, $this->query($query)->fetch_all(MYSQLI_ASSOC));
     }
 
     private function query($query)
