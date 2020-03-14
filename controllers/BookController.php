@@ -30,7 +30,7 @@ class BookController extends Controller
 
         Book::instance()->add($post);
 
-        return redirect("home");
+        return $this->redirect("home");
     }
 
 }

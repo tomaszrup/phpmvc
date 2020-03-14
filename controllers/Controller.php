@@ -18,4 +18,10 @@ class Controller
         return @include $absPath;
     }
 
+    protected function redirect(string $url, int $statusCode = 303)
+    {
+        header('Location: ' . path($url), true, $statusCode);
+        die();
+    }
+
 }

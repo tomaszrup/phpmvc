@@ -10,13 +10,4 @@ class ApiController extends Controller {
         return json_encode($data);
     }
 
-    public function test() {
-
-        $books = Book::instance()->findAll();
-
-        return $this->jsonResponse([
-            "books" => $books
-        ]);
-    }
-
 }

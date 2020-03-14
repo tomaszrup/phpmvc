@@ -11,9 +11,3 @@ function path(string $path)
 {
     return Settings::$ROUTE_PREFIX . "/" . $path;
 }
-
-function redirect(string $url, int $statusCode = 303)
-{
-    header('Location: ' . path($url), true, $statusCode);
-    die();
-}
