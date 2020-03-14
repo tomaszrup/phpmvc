@@ -1,8 +1,8 @@
 <?php
+namespace Controllers;
 
-require_once __DIR__ . '/Controller.php';
-require_once __DIR__ . '/../models/Book.php';
-require_once __DIR__ . '/../repositories/BookRepository.php';
+use Repositories\BookRepository;
+use Models\Book;
 
 class BookController extends Controller
 {

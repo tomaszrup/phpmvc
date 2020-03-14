@@ -1,8 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../models/Model.php';
-require_once __DIR__ . '/../infrastructure/Database.php';
-require_once __DIR__ . '/../infrastructure/TransactionManager.php';
+namespace Repositories;
+
+use Models\Model;
+use Infrastructure\TransactionManager;
 
 abstract class Repository
 {
@@ -13,7 +14,7 @@ abstract class Repository
     private final function __construct(TransactionManager $transactionManager)
     {
         if (!isset($this->table) || !isset($this->class)) {
-            throw new LogicException(get_class($this) . "must have a \$table and \$class properties");
+            throw new \LogicException(get_class($this) . "must have a \$table and \$class properties");
         }
 
         $this->transactionManager = $transactionManager;
@@ -83,7 +84,7 @@ abstract class Repository
         if (method_exists($this->class, 'fromArray')) {
             return $this->class::fromArray($array);
         }
-        throw new LogicException("Repository class property must implement a fromArray static method");
+        throw new \LogicException("Repository class property must implement a fromArray static method");
     }
 
 }

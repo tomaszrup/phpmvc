@@ -1,5 +1,7 @@
 <?php
 
+namespace Infrastructure;
+
 class Database
 {
 
@@ -8,7 +10,7 @@ class Database
 
     private function __construct()
     {
-        $this->connection = new PDO('mysql:host=localhost;dbname=phpmvc', "root", "");
+        $this->connection = new \PDO('mysql:host=localhost;dbname=phpmvc', "root", "");
     }
 
     public static function getConnection()

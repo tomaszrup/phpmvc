@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/Database.php';
+namespace Infrastructure;
 
 class TransactionManager
 {
@@ -11,9 +11,9 @@ class TransactionManager
         $connection->execute($args);
 
         if ($returnMultipleRows) {
-            return $connection->fetchAll(PDO::FETCH_ASSOC);
+            return $connection->fetchAll(\PDO::FETCH_ASSOC);
         }
-        return $connection->fetch(PDO::FETCH_ASSOC);
+        return $connection->fetch(\PDO::FETCH_ASSOC);
 
     }
 

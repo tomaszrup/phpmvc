@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . '/BookRepository.php';
-require_once __DIR__ . '/../models/Book.php';
-require_once __DIR__ . '/Repository.php';
+namespace Repositories;
+
+use Models\Book;
 
 class BookRepository extends Repository {
 

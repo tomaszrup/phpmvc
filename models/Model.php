@@ -1,5 +1,7 @@
 <?php
 
+namespace Models;
+
 abstract class Model implements \JsonSerializable {
 
     public function __get($name)

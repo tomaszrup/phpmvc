@@ -1,5 +1,7 @@
-<?php 
+<?php
 
-require_once 'routes.php';
+require __DIR__ . "/vendor/autoload.php";
+require_once __DIR__ . '/functions/functions.php';
+require_once __DIR__ . '/routing.php';
 
-echo $router->request($_SERVER);
+$router->request($_SERVER);

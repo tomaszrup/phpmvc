@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../infrastructure/Settings.php';
+use Infrastructure\Settings;
 
 function resource(string $path)
 {

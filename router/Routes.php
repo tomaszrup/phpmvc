@@ -1,5 +1,7 @@
 <?php
 
+namespace Router;
+
 class Routes
 {
 
@@ -20,7 +22,7 @@ class Routes
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function resolve(string $method, string $requestRoute)
     {
@@ -52,7 +54,7 @@ class Routes
             }
         }
 
-        throw new Exception();
+        throw new \Exception();
     }
 
 }

@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../infrastructure/HttpStatus.php';
+namespace Controllers;
+
 
 class Controller
 {
@@ -9,7 +10,7 @@ class Controller
         $absPath = __DIR__ . '/../views/' . $viewPath . '.php';
 
         if (!file_exists($absPath)) {
-            throw new LogicException("No such view: $viewPath");
+            throw new \LogicException("No such view: $viewPath");
         }
 
         if ($data) {

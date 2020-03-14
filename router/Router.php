@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '/Routes.php';
-require_once __DIR__ . '/../controllers/BookController.php';
-require_once __DIR__ . '/../controllers/ErrorController.php';
+namespace Router;
 
-require_once __DIR__ . '/../infrastructure/Settings.php';
+use Controllers\ErrorController;
+use Infrastructure\Settings;
+
 
 class Router
 {
@@ -25,7 +25,7 @@ class Router
         return self::$instance;
     }
 
-    public function group(string $groupPrefix, Closure $callback) {
+    public function group(string $groupPrefix, \Closure $callback) {
         $this->currentGroup = $groupPrefix;
         $callback();
         $this->currentGroup = null;
@@ -48,9 +48,8 @@ class Router
 
         try {
             $requestData = $this->routes->resolve($httpMethod, $route);
-        } catch (Exception $exception) {
-            (new ErrorController)->notFoundPage();
-            return false;
+        } catch (\Exception $exception) {
+            return (new ErrorController)->notFoundPage();
         }
 
         $destinationArray = explode("@", $requestData["destination"]);
@@ -64,6 +63,8 @@ class Router
         }
 
         array_push($requestData["args"], $attributes);
+
+        $controller = "Controllers\\$controller";
 
         return (new $controller)->$method(...$requestData["args"]);
     }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Infrastructure;
+
 class Settings
 {
 
