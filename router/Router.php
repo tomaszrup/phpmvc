@@ -11,20 +11,28 @@ class Router
 {
 
     private $routes;
+    private $currentGroup;
 
     public function __construct()
     {
         $this->routes = new Routes;
+        $this->currentGroup = null;
+    }
+
+    public function group(string $groupPrefix, Closure $callback) {
+        $this->currentGroup = $groupPrefix;
+        $callback();
+        $this->currentGroup = null;
     }
 
     public function get(string $route, string $destination)
     {
-        $this->routes->add("GET", $route, $destination);
+        $this->routes->add("GET", $route, $destination, $this->currentGroup);
     }
 
     public function post(string $route, string $destination)
     {
-        $this->routes->add("POST", $route, $destination);
+        $this->routes->add("POST", $route, $destination, $this->currentGroup);
     }
 
     public function request(array $server)

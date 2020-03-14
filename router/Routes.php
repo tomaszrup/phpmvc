@@ -11,8 +11,11 @@ class Routes
         "DELETE" => []
     ];
 
-    public function add(string $method, string $route, string $destination)
+    public function add(string $method, string $route, string $destination, ?string $group)
     {
+        if($group) {
+            $route = $group . "/" . $route;
+        }
         $this->routes[$method][$route] = $destination;
     }
 
