@@ -5,6 +5,15 @@ require_once __DIR__ . '/../infrastructure/Database.php';
 class Model
 {
 
+    private static $model;
+
+    public static function instance() {
+        if(static::$model == null) {
+            static::$model = new static();
+        }
+        return static::$model;
+    }
+
     public function add(array $data)
     {
         //TODO: Prevent injections

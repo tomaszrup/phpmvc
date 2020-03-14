@@ -2,4 +2,4 @@
 
 require_once 'routes.php';
 
-$router->request($_SERVER);
+echo $router->request($_SERVER);

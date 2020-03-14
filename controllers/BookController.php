@@ -8,7 +8,7 @@ class BookController extends Controller
 
     public function home()
     {
-        $books = (new Book)->findAll();
+        $books = Book::instance()->findAll();
 
         return $this->view(
             "home",
@@ -28,7 +28,7 @@ class BookController extends Controller
     public function create(array $post) {
         // TODO: Validation
 
-        (new Book)->add($post);
+        Book::instance()->add($post);
 
         return redirect("home");
     }

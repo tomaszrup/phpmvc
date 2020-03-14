@@ -7,4 +7,6 @@ $router = new Router;
 
 $router->get("/home", "BookController@home");
 $router->get("/creation_form", "BookController@showForm");
+$router->get("/api/test", "ApiController@test");
+
 $router->post("/books", "BookController@create");
