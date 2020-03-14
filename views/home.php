@@ -8,17 +8,17 @@ include __DIR__ . '/template/template_header.php';
             <table class="table is-fullwidth">
                 <thead>
                 <tr>
-                    <?php foreach ($books[0] as $key => $value): ?>
-                        <th> <?= strtoupper($key); ?> </th>
-                    <?php endforeach; ?>
+                    <th>Name</th>
+                    <th>Author</th>
+                    <th>Available</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($books as $key => $book): ?>
                     <tr>
-                        <?php foreach ($book as $value): ?>
-                            <td> <?= $value; ?> </td>
-                        <?php endforeach; ?>
+                        <td><?= $book->name ?></td>
+                        <td><?= $book->author ?></td>
+                        <td><?= $book->available ? "Yes" : "No" ?></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>

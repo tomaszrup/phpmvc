@@ -1,57 +1,32 @@
 <?php
 
-require_once __DIR__ . '/../infrastructure/Database.php';
+abstract class Model implements \JsonSerializable {
 
-class Model
-{
+    public function __get($name)
+    {
+        return $this->$name;
+    }
 
-    private static $instance;
+    public function __set($name, $value)
+    {
+       $this->$name = $value;
+    }
 
-    public static function instance() {
-        if(static::$instance == null) {
-            static::$instance = new static();
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
+
+    public function toArray() {
+        return get_object_vars($this);
+    }
+
+    public static function fromArray(array $array) {
+        $model = new static();
+        foreach ($array as $key => $value) {
+            $model->$key = $value;
         }
-        return static::$instance;
-    }
-
-    public function add(array $data)
-    {
-        //TODO: Prevent injections
-        $data = array_map(function ($item) {
-            return '\'' . $item . '\'';
-        }, $data);
-
-        $values = implode(",", $data);
-        $columns = implode(",", array_keys($data));
-
-        $query = "INSERT INTO $this->table ($columns) VALUES ($values);";
-
-        return $this->query($query);
-    }
-
-    public function delete(int $id)
-    {
-        $query = "DELETE FROM $this->table WHERE id = $id;";
-        return $this->query($query);
-    }
-
-    public function find(int $id)
-    {
-        $query = "SELECT * FROM $this->table WHERE id = $id;";
-        return (object)$this->query($query)->fetch_assoc();
-    }
-
-    public function findAll()
-    {
-        $query = "SELECT * FROM $this->table;";
-        return array_map(function ($item) {
-            return (object)$item;
-        }, $this->query($query)->fetch_all(MYSQLI_ASSOC));
-    }
-
-    private function query(string $query)
-    {
-        return Database::getConnection()->query($query);
+        return $model;
     }
 
 }
