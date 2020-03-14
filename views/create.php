@@ -7,14 +7,14 @@ include __DIR__ . '/template/template_header.php';
         <div class="field">
             <label class="label">Name</label>
             <div class="control">
-                <input class="input" type="text" name="name">
+                <input class="input" type="text" name="name" required>
             </div>
         </div>
 
         <div class="field">
             <label class="label">Author</label>
             <div class="control">
-                <input class="input" type="text" name="author">
+                <input class="input" type="text" name="author" required>
             </div>
         </div>
 

@@ -29,7 +29,7 @@ class BookController extends Controller
 
     public function create(array $post)
     {
-        // TODO: Validation
+
         $book = Book::fromArray($post);
 
         BookRepository::instance()->save($book);

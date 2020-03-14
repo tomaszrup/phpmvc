@@ -3,7 +3,6 @@
 require_once __DIR__ . '/Routes.php';
 require_once __DIR__ . '/../controllers/BookController.php';
 require_once __DIR__ . '/../controllers/ErrorController.php';
-require_once __DIR__ . '/../controllers/api/ApiController.php';
 
 require_once __DIR__ . '/../infrastructure/Settings.php';
 
