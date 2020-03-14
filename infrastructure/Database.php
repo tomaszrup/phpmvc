@@ -8,19 +8,15 @@ class Database
 
     private function __construct()
     {
-        $this->connection = new MySQLi("localhost", "root", "", "phpmvc");
-    }
-
-    function __destruct()
-    {
-        $this->connection->close();
+        $this->connection = new PDO('mysql:host=localhost;dbname=phpmvc', "root", "");
     }
 
     public static function getConnection()
     {
         if (self::$instance == null) {
-            self::$instance = new Database();
+            self::$instance = new self();
         }
         return self::$instance->connection;
     }
+
 }

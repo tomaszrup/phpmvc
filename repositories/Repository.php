@@ -2,74 +2,85 @@
 
 require_once __DIR__ . '/../models/Model.php';
 require_once __DIR__ . '/../infrastructure/Database.php';
+require_once __DIR__ . '/../infrastructure/TransactionManager.php';
 
-abstract class Repository {
+abstract class Repository
+{
 
     private static $instance;
+    private $transactionManager;
 
-    private final function __construct()
+    private final function __construct(TransactionManager $transactionManager)
     {
-        if(!isset($this->table) || !isset($this->class)) {
+        if (!isset($this->table) || !isset($this->class)) {
             throw new LogicException(get_class($this) . "must have a \$table and \$class properties");
         }
+
+        $this->transactionManager = $transactionManager;
     }
 
-    public static function instance() : self {
-        if(!static::$instance) {
-            static::$instance = new static();
+    public static function instance(): self
+    {
+        if (!static::$instance) {
+            static::$instance = new static(new TransactionManager());
         }
         return static::$instance;
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function save(Model $entity)
     {
-        //TODO: Prevent injections
+        $entityProperties = array_filter($entity->toArray());
 
-        $data = array_filter($entity->toArray());
-        $data = array_map(function($item) {
-            return "'$item'";
-        }, $data);
+        $columns = implode(",", array_keys($entityProperties));
 
-        $values = implode(",", $data);
-        $columns = implode(",", array_keys($data));
+        $valuesPlaceholder = array_map(function ($item) {
+            return ":$item";
+        }, array_keys($entityProperties));
+        $valuesPlaceholder = implode(",", $valuesPlaceholder);
 
-        $query = "INSERT INTO $this->table ($columns) VALUES ($values);";
+        return $this->transactionManager->transaction(
+            "INSERT INTO $this->table ($columns) VALUES ($valuesPlaceholder)",
+            $entityProperties
+        );
 
-        return $this->query($query);
     }
 
     public function delete(int $id)
     {
-        $query = "DELETE FROM $this->table WHERE id = $id;";
-        return $this->query($query);
+        return $this->transactionManager->transaction(
+            "DELETE FROM $this->table WHERE id = :id;",
+            [
+                "id" => $id
+            ]
+        );
+
     }
 
     public function find(int $id)
     {
-        $query = "SELECT * FROM $this->table WHERE id = $id;";
-        $result = $this->query($query)->fetch(PDO::FETCH_ASSOC);
+
+        $result = $this->transactionManager->transaction(
+            "SELECT * FROM $this->table WHERE id = :id;",
+            [
+                "id" => $id
+            ]
+        );
         return $this->arrayToRepositoryClassObject($result);
     }
 
     public function findAll()
     {
-        $query = "SELECT * FROM $this->table;";
-        $results = $this->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        $results = $this->transactionManager->transaction(
+            "SELECT * FROM $this->table;",
+            [],
+            true
+        );
         return array_map([$this, 'arrayToRepositoryClassObject'], $results);
     }
 
-    public function query(string $query)
-    {
-        return Database::getConnection()->query($query);
-    }
-
-
     private function arrayToRepositoryClassObject(array $array)
     {
-        if(method_exists($this->class, 'fromArray')) {
+        if (method_exists($this->class, 'fromArray')) {
             return $this->class::fromArray($array);
         }
         throw new LogicException("Repository class property must implement a fromArray static method");
