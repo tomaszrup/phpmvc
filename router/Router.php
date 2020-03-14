@@ -10,13 +10,20 @@ require_once __DIR__ . '/../infrastructure/Settings.php';
 class Router
 {
 
+    private static $instance;
     private $routes;
     private $currentGroup;
 
-    public function __construct()
+    private function __construct()
     {
         $this->routes = new Routes;
-        $this->currentGroup = null;
+    }
+
+    public static function instance() {
+        if(!self::$instance) {
+            self::$instance = new self;
+        }
+        return self::$instance;
     }
 
     public function group(string $groupPrefix, Closure $callback) {

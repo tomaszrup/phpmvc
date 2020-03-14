@@ -5,13 +5,13 @@ require_once __DIR__ . '/../infrastructure/Database.php';
 class Model
 {
 
-    private static $model;
+    private static $instance;
 
     public static function instance() {
-        if(static::$model == null) {
-            static::$model = new static();
+        if(static::$instance == null) {
+            static::$instance = new static();
         }
-        return static::$model;
+        return static::$instance;
     }
 
     public function add(array $data)

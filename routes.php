@@ -3,7 +3,7 @@
 require_once __DIR__ . '/functions/functions.php';
 require_once __DIR__ . '/router/Router.php';
 
-$router = new Router;
+$router = Router::instance();
 
 $router->group("api", function() use ($router) {
     $router->get("/test", "ApiController@test");

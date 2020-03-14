@@ -3,7 +3,7 @@
 class Database
 {
 
-    private static $db;
+    private static $instance;
     private $connection;
 
     private function __construct()
@@ -18,9 +18,9 @@ class Database
 
     public static function getConnection()
     {
-        if (self::$db == null) {
-            self::$db = new Database();
+        if (self::$instance == null) {
+            self::$instance = new Database();
         }
-        return self::$db->connection;
+        return self::$instance->connection;
     }
 }
