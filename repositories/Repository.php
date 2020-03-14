@@ -7,13 +7,16 @@ abstract class Repository {
 
     private static $instance;
 
-    private function __construct()
+    private final function __construct()
     {
+        if(!isset($this->table) || !isset($this->class)) {
+            throw new LogicException(get_class($this) . "must have a \$table and \$class properties");
+        }
     }
 
     public static function instance() : self {
         if(!static::$instance) {
-            static::$instance = new static;
+            static::$instance = new static();
         }
         return static::$instance;
     }
@@ -47,14 +50,14 @@ abstract class Repository {
     public function find(int $id)
     {
         $query = "SELECT * FROM $this->table WHERE id = $id;";
-        $result = $this->query($query)->fetch_assoc();
+        $result = $this->query($query)->fetch(PDO::FETCH_ASSOC);
         return $this->arrayToRepositoryClassObject($result);
     }
 
     public function findAll()
     {
         $query = "SELECT * FROM $this->table;";
-        $results = $this->query($query)->fetch_all(MYSQLI_ASSOC);
+        $results = $this->query($query)->fetchAll(PDO::FETCH_ASSOC);
         return array_map([$this, 'arrayToRepositoryClassObject'], $results);
     }
 
@@ -63,15 +66,13 @@ abstract class Repository {
         return Database::getConnection()->query($query);
     }
 
-    /**
-     * @throws Exception
-     */
+
     private function arrayToRepositoryClassObject(array $array)
     {
         if(method_exists($this->class, 'fromArray')) {
             return $this->class::fromArray($array);
         }
-        throw new Exception("Repository class property must implement a fromArray static method");
+        throw new LogicException("Repository class property must implement a fromArray static method");
     }
 
 }
