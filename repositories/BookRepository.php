@@ -7,9 +7,9 @@ require_once __DIR__ . '/Repository.php';
 class BookRepository extends Repository {
 
     protected $table = "books";
+    /**
+     * @var Book::class
+     */
+    protected $class = Book::class;
 
-    public function arrayToObject(array $array)
-    {
-        return Book::fromArray($array);
-    }
 }

@@ -48,14 +48,14 @@ abstract class Repository {
     {
         $query = "SELECT * FROM $this->table WHERE id = $id;";
         $result = $this->query($query)->fetch_assoc();
-        return $this->arrayToObject($result);
+        return $this->arrayToRepositoryClassObject($result);
     }
 
     public function findAll()
     {
         $query = "SELECT * FROM $this->table;";
         $results = $this->query($query)->fetch_all(MYSQLI_ASSOC);
-        return array_map([$this, 'arrayToObject'], $results);
+        return array_map([$this, 'arrayToRepositoryClassObject'], $results);
     }
 
     public function query(string $query)
@@ -63,6 +63,15 @@ abstract class Repository {
         return Database::getConnection()->query($query);
     }
 
-    abstract public function arrayToObject(array $array);
+    /**
+     * @throws Exception
+     */
+    private function arrayToRepositoryClassObject(array $array)
+    {
+        if(method_exists($this->class, 'fromArray')) {
+            return $this->class::fromArray($array);
+        }
+        throw new Exception("Repository class property must implement a fromArray static method");
+    }
 
 }
