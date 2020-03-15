@@ -6,7 +6,12 @@
       "Infrastructure\\": "infrastructure/",
       "Models\\": "models/",
       "Repositories\\": "repositories/",
-      "Router\\": "router/"
+      "Router\\": "router/",
+      "Auth\\": "auth/",
+      "Annotations\\": "annotations/"
     }
+  },
+  "require": {
+    "ext-json": "*"
   }
 }

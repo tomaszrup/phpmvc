@@ -1,13 +1,4 @@
 <?php
 
-use Infrastructure\Settings;
-
-function resource(string $path)
-{
-    return Settings::$ROUTE_PREFIX . "/resources/" . $path;
-}
-
-function path(string $path)
-{
-    return Settings::$ROUTE_PREFIX . "/" . $path;
-}
+require_once __DIR__ . "./view.php";
+require_once __DIR__ . "./annotations.php";

@@ -11,6 +11,8 @@ class BookController extends Controller
     {
         $books = BookRepository::instance()->findAll();
 
+        return $this->jsonResponse($books);
+
         return $this->view(
             "home",
             [
